@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
 import Option from '../Buttons/Option';
 import { v4 as uuidv4 } from 'uuid';
@@ -79,7 +79,7 @@ const styles = {
   frame4Container: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     gap: 20,
     display: 'flex',
     flexDirection: 'column',
@@ -106,10 +106,17 @@ const styles = {
   },
 };
 
-const Article = ({ title, date, description, option, vote }) => {
+const Article = ({ title, date, description, option, vote, totalVote, scoreList }) => {
   const newDate = new Date(date)
+  const [percentages, setPercentages] = useState(option.map(() => 100));
+  const [clicked, setClicked] = useState(false);
+
+  console.log(`${title}:`,totalVote);
+  
 
   const optionChoose = async (opt, score, number) => {
+    setClicked(true);
+
     const scoreid = `score_${number}`;
     const optionid = `option_${number}`;
     const newScore = score + 1
@@ -119,6 +126,10 @@ const Article = ({ title, date, description, option, vote }) => {
       .update({ [scoreid]: newScore }) // Use square brackets to set the dynamic column name
       .eq(optionid, opt)
       .select();
+
+    const totalVotes = scoreList.reduce((acc, cur) => acc + cur, 0);
+    const newPercentages = scoreList.map((score, index) => ((score / totalVotes) * 100).toFixed(0));
+    setPercentages(newPercentages);
 
     console.info(scoreid, optionid, newScore, data);
   };
@@ -143,14 +154,16 @@ const Article = ({ title, date, description, option, vote }) => {
         <Text numberOfLines={4} style={styles.description}>{description}</Text>
       </View>
       <View style={styles.frame4Container}>
-        {option.map((item) => {
+        {option.map((item, index) => {
           if (item.opt !== null) {
             return <Option 
               key={uuidv4()} 
               opt={item.opt} 
               score={item.score} 
-              number={item.num} 
-              onOptionChoose={optionChoose}/>;
+              number={item.num}
+              percentage={percentages[index]}
+              onOptionChoose={optionChoose}
+              clicked={clicked}/>;
           } else {
             return null;
           }
