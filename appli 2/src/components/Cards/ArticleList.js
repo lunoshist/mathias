@@ -14,6 +14,8 @@ const ArticleList = ({ data }) => {
           vote={item.vote}
           description={item.description}
           option={[{"opt": item.option_1, "score": item.score_1, "num": 1}, {"opt": item.option_2, "score": item.score_2, "num": 2}, {"opt": item.option_3, "score": item.score_3, "num": 3}, {"opt": item.option_4, "score": item.score_4, "num": 4}, {"opt": item.option_5, "score": item.score_5, "num": 5}]}
+          totalVote={item.score_1 + item.score_2 + item.score_3 + item.score_4 + item.score_5}
+          scoreList={[item.score_1, item.score_2, item.score_3, item.score_4, item.score_5]}
         />
       ))}
     </View>
