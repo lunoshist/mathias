@@ -14,7 +14,6 @@ export default function Frame1({navigation}) {
       <Text style={styles.quartierText}>Engagez vous pour votre quartier</Text>
       <View style={styles.buttonContainer}>
         <BoutonConnecterComponent navigation={navigation}/>
-
       </View>
     </View>
   );    

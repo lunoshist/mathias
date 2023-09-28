@@ -1,19 +1,18 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import ImportFrame from '../../components/Buttons/ImportDoc';
-import BoutonSuivant from '../../components/Buttons/BouttonSuivant';
+import BoutonHome from '../../components/Buttons/BoutonHome';
 
-const Frame3 = (navigation) => {
+const Frame3 = ({navigation}) => {
 
   const handleSuivantClick = () => {
     navigation.navigate("Home")
   };
-
   return (
     <View style={styles.frame}>
       <Image source={require('../../assets/Images/Baxy.png')} style={styles.baxyImage} />
       <ImportFrame/>
-      <BoutonSuivant onPress={handleSuivantClick} />
+      <BoutonHome onPress={handleSuivantClick}/>
     </View>
   );
 };
